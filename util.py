@@ -66,7 +66,7 @@ def xai_eval_fnc(model, relevence, input_x, model_type='lstm', percentile=90,
     return model.predict(input_new)
 
 
-def heat_map(start, stop, x, shap_values, var_name='Feature 1', plot_type='bar', title=None):
+def heat_map(start, stop, x, shap_values, var_name='Feature 1', plot_type='bar', title=None, val_type='wSHAP values'):
     """
     A function that generates a heatmap with the temporal sequence alongside its Shapley values
 
@@ -100,6 +100,7 @@ def heat_map(start, stop, x, shap_values, var_name='Feature 1', plot_type='bar',
     idx=np.searchsorted(bounds,0)
     bounds=np.insert(bounds,idx,0)
     norm = BoundaryNorm(bounds, cmap.N)
+    # print(bounds)
     ##------------------------------------
     
     if title is None: title = '\n'.join(wrap('{} values and contribution scores'.format(var_name), width=40))
@@ -134,7 +135,7 @@ def heat_map(start, stop, x, shap_values, var_name='Feature 1', plot_type='bar',
         # ax2.legend(lines + lines2, labels + labels2, loc=0)
     
     ax1.set_xlabel('Time steps')
-    if plot_type=='bar': ax1.set_ylabel('Shapley values')
+    if plot_type=='bar': ax1.set_ylabel(val_type)
     ax2.set_ylabel(var_name + ' data values')
     plt.tight_layout()
     plt.show()
